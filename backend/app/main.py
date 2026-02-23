@@ -7,7 +7,8 @@ app = FastAPI(title="ML Model API")
 # Configurar CORS para conectar con frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # URL del frontend
+    allow_origins=["*"],  # URL del frontend Actualmente acepta todos los origenes, cambiarlo luego
+    #allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -17,12 +18,12 @@ app.add_middleware(
 def read_root():
     return {"message": "ML API funcionando!"}
 
-@app.post("/predict")
+@app.post("/generate")
 async def predict(image: UploadFile = File(...)):
-    # Aquí irá tu modelo de ML
+    # Aquí va el modelo de Deep Learning
     return {
         "filename": image.filename,
-        "message": "Predicción funcionando - modelo por implementar"
+        "message": "Imagen recibida correctamente - modelo por implementar"
     }
 
 if __name__ == "__main__":
