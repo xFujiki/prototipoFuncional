@@ -88,14 +88,14 @@ Las métricas se calculan comparando las imágenes generadas contra el dataset r
 
 | Métrica | v2 | v3 | v4 | v5 | Mejor |
 |---|---|---|---|---|---|
-| **FID** ↓ | 141.06 | 134.43 | 136.31 | 137.17 | 🥇 v3 |
-| **KID** ↓ | 0.01130 | 0.01095 | 0.01208 | 0.01298 | 🥇 v3 |
-| **LPIPS** ↓ | 0.7423 | 0.7392 | 0.7388 | 0.7393 | 🥇 v4 |
-| **SSIM** ↑ | 0.0813 | 0.0847 | 0.0818 | 0.0818 | 🥇 v3 |
-| **PSNR** ↑ | 10.497 | 10.617 | 10.516 | 10.515 | 🥇 v3 |
-| **CLIP Score** ↑ | 28.90 | 28.84 | 28.87 | 28.89 | 🥇 v2 |
+| **FID** ↓ | 141.06 | 134.43 | 136.31 | 137.17 | v3 |
+| **KID** ↓ | 0.01130 | 0.01095 | 0.01208 | 0.01298 | v3 |
+| **LPIPS** ↓ | 0.7423 | 0.7392 | 0.7388 | 0.7393 | v4 |
+| **SSIM** ↑ | 0.0813 | 0.0847 | 0.0818 | 0.0818 | v3 |
+| **PSNR** ↑ | 10.497 | 10.617 | 10.516 | 10.515 | v3 |
+| **CLIP Score** ↑ | 28.90 | 28.84 | 28.87 | 28.89 | v2 |
 
-> ⚠️ Evaluación realizada con 62 imágenes generadas por modelo. Se planea re-evaluar con 500 imágenes para mayor confianza estadística en el FID.
+> Evaluación realizada con 62 imágenes generadas por modelo. Se planea re-evaluar con 500 imágenes para mayor confianza estadística en el FID.
 
 **Ranking general:** v3 > v4 ≈ v5 > v2
 
