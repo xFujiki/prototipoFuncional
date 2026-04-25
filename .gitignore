@@ -205,3 +205,44 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# ── Entorno virtual ───────────────────────────────────────
+venv_flux/
+
+# ── Pesos y checkpoints del modelo (archivos pesados) ─────
+*.safetensors
+*.bin
+backend/app/model/LoRA_FLUX.1/lora_output_flux*/
+backend/app/model/LoRA_FLUX.1/imagenes_aug*/
+backend/app/model/LoRA_FLUX.1/resultados_lora*/
+
+# ── Dataset e imágenes de entrenamiento ───────────────────
+backend/app/preprocessing_dataset/
+
+# ── Diffusers (repositorio externo clonado) ───────────────
+diffusers/
+
+# ── Logs de entrenamiento ─────────────────────────────────
+training_flux*.log
+
+# ── WandB ─────────────────────────────────────────────────
+wandb/
+
+# ── Scripts de utilidad local ─────────────────────────────
+upload_loss_wandb.py
+
+# ── StyleGAN2 (repositorio externo clonado) ───────────────
+backend/app/model/stylegan2-ada-pytorch/
+
+# ── Venv dentro de backend ────────────────────────────────
+backend/venv/
+
+# ── Dataset comprimido ────────────────────────────────────
+*.zip
+
+# ── Carpetas de outputs del modelo (pesos, imágenes, checkpoints) ──
+backend/app/model/LoRA_FLUX.1/lora_output*/
+backend/app/model/LoRA_FLUX.1/resultados_lora*/
+backend/app/model/LoRA_FLUX.1/imagenes_*/
+backend/app/model/LoRA_FLUX.1/train_images/
+backend/app/model/LoRA_FLUX.1/test_img2img/
