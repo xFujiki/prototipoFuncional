@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧵 Pre-Columbian Textile Generator
+# Pre-Columbian Textile Generator
 
 ### Generación de Patrones Textiles Andinos mediante Aprendizaje Profundo e Inteligencia Artificial
 
@@ -17,13 +17,13 @@
 
 ---
 
-## 📖 Descripción
+## Descripción
 
 Este repositorio contiene el prototipo funcional desarrollado como parte de la tesis *"Generación de patrones textiles utilizando un modelo de aprendizaje profundo y técnicas de inteligencia artificial"*. El sistema es una aplicación full-stack compuesta por un frontend en React y un backend en FastAPI, que aprovecha el modelo de difusión **FLUX.1-dev** fine-tuneado con **DreamBooth LoRA** para realizar generación imagen a imagen de patrones textiles precolombinos andinos (Inka, Wari, entre otros).
 
 ---
 
-## 🏗️ Arquitectura del sistema
+## Arquitectura del sistema
 
 ```
 prototipoFuncional/
@@ -53,7 +53,7 @@ prototipoFuncional/
 
 ---
 
-## ✨ Features
+## Features
 
 - **Full-Stack Application** — Interfaz web completa con cliente React y servidor FastAPI.
 - **Image-to-Image Generation** — Genera nuevos patrones textiles a partir de una imagen fuente cargada por el usuario.
@@ -63,7 +63,7 @@ prototipoFuncional/
 
 ---
 
-## 🤖 Detalles del modelo
+## Detalles del modelo
 
 ### FLUX.1 con LoRA
 
@@ -82,7 +82,7 @@ La generación de imágenes está impulsada por el modelo `black-forest-labs/FLU
 
 ---
 
-## 📊 Resultados de evaluación
+## Resultados de evaluación
 
 Las métricas se calculan comparando las imágenes generadas contra el dataset real usando `evaluar_modelos.py`:
 
@@ -101,7 +101,7 @@ Las métricas se calculan comparando las imágenes generadas contra el dataset r
 
 ---
 
-## 🚀 Setup y ejecución
+## Setup y ejecución
 
 ### Requisitos
 - Python 3.10, Node.js 18+
@@ -133,7 +133,7 @@ La interfaz estará disponible en `http://localhost:5173`.
 
 ---
 
-## 🧪 Evaluación de métricas
+## Evaluación de métricas
 
 ```bash
 cd backend/app/model/evaluacion_metrica
@@ -155,7 +155,7 @@ pip install torchmetrics lpips transformers scikit-image
 
 ---
 
-## 🖥️ Uso
+## Uso
 
 1. Asegúrate de que el backend y el frontend estén corriendo.
 2. Abre `http://localhost:5173` en tu navegador.
@@ -166,7 +166,7 @@ pip install torchmetrics lpips transformers scikit-image
 
 ---
 
-## 🛠️ Stack tecnológico
+## Stack tecnológico
 
 | Componente | Tecnología |
 |---|---|
@@ -180,7 +180,7 @@ pip install torchmetrics lpips transformers scikit-image
 
 ---
 
-## 📁 Archivos no incluidos en el repositorio
+## Archivos no incluidos en el repositorio
 
 Por tamaño o confidencialidad, los siguientes recursos **no están incluidos**:
 
@@ -193,14 +193,10 @@ Por tamaño o confidencialidad, los siguientes recursos **no están incluidos**:
 
 ---
 
-## 👤 Autor
+## Autor
 
 **Adrian Fujiki**  
 Pontificia Universidad Católica del Perú — Facultad de Ciencias e Ingeniería  
 GitHub: [@xFujiki](https://github.com/xFujiki)
 
 ---
-
-<div align="center">
-<sub>Hecho con ❤️ para preservar y difundir el patrimonio cultural textil andino a través de la IA</sub>
-</div>
