@@ -69,35 +69,51 @@ prototipoFuncional/
 
 La generación de imágenes está impulsada por el modelo `black-forest-labs/FLUX.1-dev`, fine-tuneado mediante **Low-Rank Adaptation (LoRA)** con la técnica **DreamBooth** sobre un dataset personalizado de textiles precolombinos. Se entrenaron 4 versiones con diferentes configuraciones de hiperparámetros:
 
-| Versión | LoRA Rank | Steps | Learning Rate | LR Scheduler | Novedad principal |
-|---|---|---|---|---|---|
-| **v2** | 16 | 3 000 | 1e-4 | constant | Línea base |
-| **v3** | 32 | 4 000 | 5e-5 | cosine | Mayor capacidad + decay |
-| **v4** | 16 | 3 000 | 5e-5 | cosine with restarts | Batch size efectivo ×4 |
-| **v5** | 64 | 5 000 | 3e-5 | cosine | Text encoder entrenado |
+| Versión | LoRA Rank | Steps | Learning Rate | LR Scheduler | Loss final | Novedad principal |
+|---|---|---|---|---|---|---|
+| **v2** | 16 | 3 000 | 1e-4 | constant | 0.527 | Línea base |
+| **v3** | 32 | 4 000 | 5e-5 | cosine | 0.478 | Mayor capacidad + decay |
+| **v4** | 16 | 3 000 | 5e-5 | cosine with restarts | 0.458 | Batch size efectivo ×4 |
+| **v5** | 64 | 5 000 | 3e-5 | cosine | 0.468 | Text encoder entrenado |
 
 > Todos los modelos usan `mixed_precision=bf16`, `seed=42`, resolución `256×256 px` y el prompt de instancia: *"pre-Columbian Andean textile, museum quality, cultural heritage artifact"*.
 
-**Justificación de los cambios:** En v2 se estableció la línea base con lr constante y rank 16, lo que produjo inestabilidad en el loss y el peor FID (141.06). En v3 se redujo el lr a 5e-5, se duplicó el rank y se introdujo cosine decay, logrando la mejor distribución general (FID 134.43, KID 0.01095). En v4 se aumentó el batch size efectivo a 16 con cosine with restarts, obteniendo el menor loss final (0.458) y mejor LPIPS. Finalmente, v5 incorporó el entrenamiento del text encoder con lr independiente de 1e-5 y rank 64, alcanzando el CLIP Score más alto.
+**Justificación de los cambios:** En v2 se estableció la línea base con lr constante y rank 16. En v3 se redujo el lr a 5e-5, se duplicó el rank y se introdujo cosine decay. En v4 se aumentó el batch size efectivo a 16 mediante acumulación de gradiente, logrando el menor loss final (0.458). Finalmente, v5 incorporó el entrenamiento del text encoder con lr independiente de 1e-5 y rank 64, buscando mayor alineación entre prompts textuales e imágenes generadas.
 
 ---
 
 ## Resultados de evaluación
 
-Las métricas se calculan comparando las imágenes generadas contra el dataset real usando `evaluar_modelos.py`:
+### Evaluación cuantitativa
+
+Las métricas se calculan comparando 500 inferencias por modelo contra el dataset real usando `evaluar_modelos.py`, con un parámetro `strength=0.70`:
 
 | Métrica | v2 | v3 | v4 | v5 | Mejor |
 |---|---|---|---|---|---|
-| **FID** ↓ | 141.06 | 134.43 | 136.31 | 137.17 | v3 |
-| **KID** ↓ | 0.01130 | 0.01095 | 0.01208 | 0.01298 | v3 |
-| **LPIPS** ↓ | 0.7423 | 0.7392 | 0.7388 | 0.7393 | v4 |
-| **SSIM** ↑ | 0.0813 | 0.0847 | 0.0818 | 0.0818 | v3 |
-| **PSNR** ↑ | 10.497 | 10.617 | 10.516 | 10.515 | v3 |
-| **CLIP Score** ↑ | 28.90 | 28.84 | 28.87 | 28.89 | v2 |
+| **FID** ↓ | 55.558 | 60.238 | 61.089 | 59.880 | **v2** |
+| **KID** ↓ | 0.00482 | 0.00803 | 0.00839 | 0.00843 | **v2** |
+| **LPIPS** ↓ | 0.3720 | 0.3832 | 0.3849 | 0.3833 | **v2** |
+| **CLIP Score** ↑ | 28.169 | 28.094 | 28.101 | 28.137 | **v2** |
+| **DINO** ↑ | 0.7542 | 0.7262 | 0.7262 | 0.7265 | **v2** |
 
-> Evaluación realizada con 62 imágenes generadas por modelo. Se planea re-evaluar con 500 imágenes para mayor confianza estadística en el FID.
+**Ranking general:** v2 > v5 ≈ v3 > v4
 
-**Ranking general:** v3 > v4 ≈ v5 > v2
+> v2 obtiene los mejores resultados en todas las métricas, indicando mayor fidelidad visual y coherencia texto-imagen respecto al dataset de referencia. Este resultado debe interpretarse con cuidado: una fidelidad elevada puede reflejar menor diversificación generativa. Las versiones con menor puntaje podrían estar exhibiendo mayor creatividad, aunque a costa de alejarse del dominio visual de referencia.
+
+### Evaluación cualitativa
+
+Se realizó una revisión visual de un subconjunto de las 500 inferencias por versión, comparando textiles de distintas culturas (Inka, Chimú, Nazca, Paracas, Chancay). Los resultados son coherentes y reconocibles como patrones textiles precolombinos en las cuatro versiones, sin diferencias perceptuales significativas entre ellas.
+
+### Validación experta
+
+Un subconjunto de 30 imágenes generadas por el modelo **v2** fue evaluado por **Milagritos Jiménez**, magíster en Arqueología y especialista del Museo de Arqueología Josefina Ramos de Cox, mediante un formulario con escala Likert del 1 al 5.
+
+| Resultado | Valor |
+|---|---|
+| Imágenes reconocidas como textil precolombino (puntaje ≥ 3) | **66.7%** |
+| IOV objetivo | 70% |
+
+> El 66.7% se considera parcialmente satisfactorio dado que la validación se realizó con un único evaluador y sobre un subconjunto limitado. Ampliar el número de especialistas y el conjunto de imágenes podría conducir a resultados más representativos.
 
 ---
 
@@ -139,10 +155,10 @@ La interfaz estará disponible en `http://localhost:5173`.
 cd backend/app/model/evaluacion_metrica
 
 python3 evaluar_modelos.py \
-  --versions v3 v4 \
+  --versions v2 v3 v4 v5 \
   --real_dir /ruta/dataset/imagenes_256x256 \
   --gen_base /ruta/LoRA_FLUX.1 \
-  --output ./metricas_comparacion.json \
+  --output ./metricas_resultados.json \
   --prompt "pre-Columbian Andean textile, museum quality, cultural heritage artifact" \
   --size 256 \
   --gpu 0
@@ -186,7 +202,8 @@ Por tamaño o confidencialidad, los siguientes recursos **no están incluidos**:
 
 - Pesos del modelo (`*.safetensors`, `*.bin`)
 - Checkpoints de entrenamiento (`lora_output*/`)
-- Imágenes generadas (`resultados_lora*/`)
+- Imágenes generadas (`resultados_lora*/`, `image_test_lora_v*/`, `resultados_test_v*/`)
+- Inferencias de formulario (`inferencias_form_v*/`)
 - Dataset de imágenes (`imagenes_*/`, `*.zip`)
 - Entornos virtuales (`venv_flux/`, `venv/`)
 - Repositorios externos clonados (`diffusers/`, `stylegan2-ada-pytorch/`)
