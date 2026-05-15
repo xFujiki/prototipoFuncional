@@ -246,3 +246,10 @@ backend/app/model/LoRA_FLUX.1/resultados_lora*/
 backend/app/model/LoRA_FLUX.1/imagenes_*/
 backend/app/model/LoRA_FLUX.1/train_images/
 backend/app/model/LoRA_FLUX.1/test_img2img/
+
+# ── Imágenes de test LoRA ─────────────────────────────────
+backend/app/model/LoRA_FLUX.1/image_test_lora_v*/
+backend/app/model/LoRA_FLUX.1/resultados_test_v*/
+
+# ── Inferencias de formulario ─────────────────────────────
+inferencias_form_v*/
